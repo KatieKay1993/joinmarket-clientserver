@@ -28,9 +28,9 @@ deb_deps_install ()
         echo "
             sudo password required to run :
 
-            \`apt-get install ${deb_deps[@]}\`
+            \`apt-get update && apt-get install ${deb_deps[@]}\`
             "
-        if ! sudo apt-get install ${deb_deps[@]}; then
+        if ! sudo apt-get update && sudo apt-get install ${deb_deps[@]}; then
             return 1
         fi
     fi
