@@ -56,6 +56,9 @@ run_jm_tests ()
     fi
     rm -rf "${jm_test_datadir}"
     ${jm_in_docker+coveralls}
+    echo "============= NETSAT ============="
+    netstat -tulpna | grep 27183
+    echo "============= NETSAT ============="
     return ${success:-1}
 }
 run_jm_tests
