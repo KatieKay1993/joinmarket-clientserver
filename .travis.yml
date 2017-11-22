@@ -3,11 +3,16 @@ os:
   - linux
   - osx
 dist: trusty
-language: python
+apt:
+  sources:
+    - sourceline 'ppa:bitcoin/bitcoin'
+    key_url 'http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xD46F45428842CE5E'
+  packages:
+    - bitcoind
 before_install:
-  - ( test "$TRAVIS_OS_NAME" = linux && sudo apt-add-repository ppa:bitcoin/bitcoin -y ) || true
-  - ( test "$TRAVIS_OS_NAME" = linux && sudo apt-get update -q ) || true
-  - ( test "$TRAVIS_OS_NAME" = linux && sudo apt-get install --no-install-recommends --no-upgrade -qq bitcoind ) || true
+  - ( test "$TRAVIS_OS_NAME" = osx && brew update ) || true
+  - ( test "$TRAVIS_OS_NAME" = osx && ( brew outdated python || brew install python ) ) || true
+  - ( test "$TRAVIS_OS_NAME" = osx && pip install virtualenv ) || true
 install:
   - ./install.sh --develop --no-gpg-validation
 before_script:
