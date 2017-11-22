@@ -1,12 +1,15 @@
 sudo: required
+os:
+  - linux
+  - osx
 dist: trusty
 language: python
 python:
   - "2.7_with_system_site_packages"
 before_install:
-  - sudo apt-add-repository ppa:bitcoin/bitcoin -y
-  - sudo apt-get update -q
-  - sudo apt-get install --no-install-recommends --no-upgrade -qq bitcoind
+  - ( test "$TRAVIS_OS_NAME" = linux && sudo apt-add-repository ppa:bitcoin/bitcoin -y ) || true
+  - ( test "$TRAVIS_OS_NAME" = linux && sudo apt-get update -q ) || true
+  - ( test "$TRAVIS_OS_NAME" = linux && sudo apt-get install --no-install-recommends --no-upgrade -qq bitcoind ) || true
 install:
   - ./install.sh --develop --no-gpg-validation
 before_script:
@@ -18,3 +21,4 @@ after_success:
 branches:
  only:
   - master
+  - travis-test-linux-and-osx
