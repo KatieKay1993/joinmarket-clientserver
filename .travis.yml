@@ -14,6 +14,9 @@ before_install:
   - ( test "$TRAVIS_OS_NAME" = osx && brew update ) || true
   - ( test "$TRAVIS_OS_NAME" = osx && ( brew outdated python || brew install python ) ) || true
   - ( test "$TRAVIS_OS_NAME" = osx && pip install virtualenv ) || true
+  - ( test "$TRAVIS_OS_NAME" = osx && curl -L https://bitcoin.org/bin/bitcoin-core-0.15.0.1/bitcoin-0.15.0.1-osx.dmg -o bitcoin.dmg ) || true
+  - ( test "$TRAVIS_OS_NAME" = osx && sudo hdiutil attach bitcoin.dmg ) || true
+  - ( test "$TRAVIS_OS_NAME" = osx && find /Volumes ) || true
 install:
   - ./install.sh --develop --no-gpg-validation
 before_script:
