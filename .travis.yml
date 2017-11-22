@@ -6,7 +6,7 @@ dist: trusty
 apt:
   sources:
     - sourceline 'ppa:bitcoin/bitcoin'
-    key_url 'http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xD46F45428842CE5E'
+    key_url: 'http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xD46F45428842CE5E'
   packages:
     - bitcoind
 before_install:
