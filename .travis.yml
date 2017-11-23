@@ -11,18 +11,17 @@ addons:
     packages:
       - bitcoind
 before_install:
-  - ( test "$TRAVIS_OS_NAME" = osx && brew update ) || true
-  - ( test "$TRAVIS_OS_NAME" = osx && ( brew outdated python || brew install python ) ) || true
-  - ( test "$TRAVIS_OS_NAME" = osx && pip install virtualenv ) || true
-  - ( test "$TRAVIS_OS_NAME" = osx && curl -L https://bitcoin.org/bin/bitcoin-core-0.15.0.1/bitcoin-0.15.0.1-osx.dmg -o bitcoin.dmg ) || true
-  - ( test "$TRAVIS_OS_NAME" = osx && sudo hdiutil attach bitcoin.dmg ) || true
-  - ( test "$TRAVIS_OS_NAME" = osx && find /Volumes ) || true
+  - on_osx(){( test "$TRAVIS_OS_NAME" = osx && $@ ) || true; }
+  - on_linux(){( test "$TRAVIS_OS_NAME" = linux && $@ ) || true; }
+  - on_osx 'brew update'
+  - on_osx '( brew outdated python || brew install python )'
+  - on_osx 'pip install virtualenv'
 install:
   - ./install.sh --develop --no-gpg-validation
 before_script:
   - source jmvenv/bin/activate
 script:
-  - ./test/run_tests.sh
+  - on_linux ./test/run_tests.sh
 after_success:
   - coveralls
 branches:
