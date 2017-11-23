@@ -20,12 +20,8 @@ before_install:
   - on_osx pip install virtualenv
   - on_osx pip install --upgrade pip
   - on_osx mkdir -p $HOME/.cache
-  - on_osx curl -L https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-osx64.tar.gz -o $HOME/.cache/bitcoincore.tar.gz
+  - on_osx "( test -r $HOME/.cache/bitcoincore.tar.gz || curl -L https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-osx64.tar.gz -o $HOME/.cache/bitcoincore.tar.gz )"
   - on_osx sudo tar -xzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1
-  - on_osx set -f
-  - on_osx find /usr/local -iname "bitcoin*"
-  - on_osx set +f
-  - on_osx echo $PATH
 install:
   - ./install.sh --develop --no-gpg-validation
 before_script:
