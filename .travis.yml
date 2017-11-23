@@ -10,14 +10,18 @@ addons:
       key_url: 'http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xD46F45428842CE5E'
     packages:
       - bitcoind
+cache:
+      directories:
+          - $HOME/.cache
 before_install:
   - on_osx(){( test "$TRAVIS_OS_NAME" = osx && $@ ) || true; }
   - on_linux(){( test "$TRAVIS_OS_NAME" = linux && $@ ) || true; }
   - on_osx '( brew outdated python || brew install python )'
   - on_osx 'pip install virtualenv'
   - on_osx 'pip install --upgrade pip'
-  - on_osx 'curl -L https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-osx64.tar.gz -o bitcoincore.tar.gz'
-  - on_osx 'sudo tar -xzf bitcoincore.tar.gz -C /usr/local/ --strip-components=1'
+  - on_osx 'mkdir -p $HOME/.cache'
+  - on_osx 'curl -L https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-osx64.tar.gz -o $HOME/.cache/bitcoincore.tar.gz'
+  - on_osx 'sudo tar -xzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1'
   - on_osx 'find /usr/local -iname "bitcoin*"'
   - on_osx 'echo $PATH'
 install:
