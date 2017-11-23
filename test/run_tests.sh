@@ -17,7 +17,7 @@ run_jm_tests ()
     curl -L https://github.com/JoinMarket-Org/miniircd/archive/master.tar.gz -o miniircd.tar.gz
     rm -rf ./miniircd
     mkdir -p miniircd
-    tar -xjf miniircd.tar.gz -C ./miniircd --strip-components=1
+    tar -xzf miniircd.tar.gz -C ./miniircd --strip-components=1
     if ! pip install -r ./requirements-dev.txt; then
         echo "Packages in 'requirements-dev.txt' could not be installed. Exiting."
         return 1
