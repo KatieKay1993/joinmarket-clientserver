@@ -13,7 +13,6 @@ addons:
 before_install:
   - on_osx(){( test "$TRAVIS_OS_NAME" = osx && $@ ) || true; }
   - on_linux(){( test "$TRAVIS_OS_NAME" = linux && $@ ) || true; }
-  - on_osx 'brew update'
   - on_osx '( brew outdated python || brew install python )'
   - on_osx 'pip install virtualenv'
   - on_osx 'pip install --upgrade pip'
