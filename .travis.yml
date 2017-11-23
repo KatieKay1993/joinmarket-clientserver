@@ -27,7 +27,7 @@ install:
 before_script:
   - source jmvenv/bin/activate
 script:
-  - ./test/run_tests.sh
+  - on_osx ./test/run_tests.sh
 after_success:
   - coveralls
 after_failure:

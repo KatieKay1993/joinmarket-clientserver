@@ -45,6 +45,7 @@ run_jm_tests ()
     cp -f ./test/bitcoin.conf "${jm_test_datadir}/bitcoin.conf"
     ${orig_umask}
     echo "datadir=${jm_test_datadir}" >> "${jm_test_datadir}/bitcoin.conf"
+    ls -la ${jm_test_datadir}/*
     python -m py.test ${HAS_JOSH_K_SEAL_OF_APPROVAL+--cov=jmclient --cov=jmbitcoin --cov=jmbase --cov=jmdaemon --cov-report html} --btcpwd=123456abcdef --btcconf=${jm_test_datadir}/bitcoin.conf --btcuser=bitcoinrpc --nirc=2 -p no:warnings
     local success="$?"
     unlink ./joinmarket.cfg
