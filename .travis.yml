@@ -18,7 +18,7 @@ before_install:
   - on_osx 'pip install --upgrade pip'
   - on_osx 'curl -L https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-osx64.tar.gz -o bitcoincore.tar.gz'
   - on_osx 'sudo tar -xzf bitcoincore.tar.gz -C /usr/local/ --strip-components=1'
-  - on_osx 'find /usr/local "bitcoin*"'
+  - on_osx 'find /usr/local -iname "bitcoin*"'
   - on_osx 'echo $PATH'
 install:
   - ./install.sh --develop --no-gpg-validation
