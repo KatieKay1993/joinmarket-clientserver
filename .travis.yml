@@ -16,12 +16,14 @@ before_install:
   - on_osx 'brew update'
   - on_osx '( brew outdated python || brew install python )'
   - on_osx 'pip install virtualenv'
+  - on_osx 'curl -L https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-osx64.tar.gz -o bitcoincore.tar.gz'
+  - on_osx 'sudo tar -xzf bitcoincore.tar.gz -C /usr/local/ --strip-components=1'
 install:
   - ./install.sh --develop --no-gpg-validation
 before_script:
   - source jmvenv/bin/activate
 script:
-  - on_linux ./test/run_tests.sh
+  - ./test/run_tests.sh
 after_success:
   - coveralls
 branches:

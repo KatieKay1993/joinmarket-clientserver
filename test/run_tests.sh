@@ -17,7 +17,7 @@ run_jm_tests ()
     curl -L https://github.com/JoinMarket-Org/miniircd/archive/master.tar.gz -o miniircd.tar.gz
     rm -rf ./miniircd
     mkdir -p miniircd
-    tar xaf miniircd.tar.gz -C ./miniircd --strip-components=1
+    tar -xjf miniircd.tar.gz -C ./miniircd --strip-components=1
     if ! pip install -r ./requirements-dev.txt; then
         echo "Packages in 'requirements-dev.txt' could not be installed. Exiting."
         return 1
@@ -27,7 +27,7 @@ run_jm_tests ()
 		echo "file 'joinmarket.cfg' moved to 'joinmarket.cfg.bak'"
     fi
     for dir in '/dev/shm' '/tmp' "${jm_source}/test"; do
-        if [[ -d "${dir}" && -r "${dir}" ]]; then
+        if [[ -d "${dir}" && -r "${dir}" && -w "${dir}" && -x "${dir}" ]]; then
             jm_test_datadir="${dir}/jm_test_home/.bitcoin"
             break
         fi
