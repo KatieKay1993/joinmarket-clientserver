@@ -52,6 +52,9 @@ run_jm_tests ()
     if read bitcoind_pid <"${jm_test_datadir}/bitcoind.pid"; then
         pkill -15 ${bitcoind_pid} || pkill -9 ${bitcoind_pid}
     fi
+    if [[ "${HAS_JOSH_K_SEAL_OF_APPROVAL}" = true ]]; then
+        tail -100 "${jm_test_datadir}/debug.log"
+    fi
     rm -rf "${jm_test_datadir}"
     return ${success:-1}
 }
