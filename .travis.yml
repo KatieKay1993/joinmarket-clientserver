@@ -26,14 +26,15 @@ before_install:
   - on_osx pip install --upgrade pip
   - on_osx pip install virtualenv
   - on_osx mkdir -p $HOME/.cache
-  - on_osx "( test -r $HOME/.cache/bitcoincore.tar.gz || curl -L https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-osx64.tar.gz -o $HOME/.cache/bitcoincore.tar.gz )"
   - on_osx sudo tar -xzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1
+  - on_osx "( test $? -eq 0 || ( curl -L https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-osx64.tar.gz -o $HOME/.cache/bitcoincore.tar.gz && sudo tar -xzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1 ) )"
   - on_osx diskutil erasevolume HFS+ ramdisk "$(hdiutil attach -nomount ram://4194304)"
 install:
   - ./install.sh --develop --no-gpg-validation
 before_script:
   - source jmvenv/bin/activate
 script:
+  - bitcoind --help | head -1
   - on_osx ./test/run_tests.sh
 after_success:
   - coveralls
