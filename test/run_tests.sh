@@ -54,8 +54,10 @@ run_jm_tests ()
     fi
     if [[ "${HAS_JOSH_K_SEAL_OF_APPROVAL}" = true ]]; then
         tail -100 "${jm_test_datadir}/debug.log"
+        ls -la "${jm_test_datadir}/"
+    else
+        rm -rf "${jm_test_datadir}"
     fi
-    rm -rf "${jm_test_datadir}"
     return ${success:-1}
 }
 run_jm_tests
