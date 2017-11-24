@@ -53,8 +53,8 @@ run_jm_tests ()
         kill -15 ${bitcoind_pid} || kill -9 ${bitcoind_pid}
     fi
     if [[ "${HAS_JOSH_K_SEAL_OF_APPROVAL}" = true ]]; then
-        tail -100 "${jm_test_datadir}/debug.log"
-        ls -la "${jm_test_datadir}/"
+        tail -100 "${jm_test_datadir}/regtest/debug.log"
+        find "${jm_test_datadir}/"
     else
         rm -rf "${jm_test_datadir}"
     fi

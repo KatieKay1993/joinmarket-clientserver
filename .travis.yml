@@ -43,7 +43,7 @@ after_success:
   - coveralls
 after_failure:
   - echo "at least cache some stuff"
-  - do_on osx ls -la "/Users/${USER}/Library/Application Support/Bitcoin/"
+  - do_on osx find "/Users/${USER}/Library/Application\ Support/Bitcoin/"
 branches:
  only:
   - master
