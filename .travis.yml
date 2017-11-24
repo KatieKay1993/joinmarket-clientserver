@@ -3,6 +3,7 @@ os:
   - linux
   - osx
 dist: trusty
+osx_image: xcode9.1
 addons:
   apt:
     sources:
@@ -19,6 +20,9 @@ cache:
     - $HOME/.cache
 before_install:
   - do_on(){ if [ "$TRAVIS_OS_NAME" = "$1" ]; then shift; $@ ; fi; }
+  - do_on osx rvm install "ruby-2.3.4"
+  - do_on osx export HOMEBREW_RUBY_PATH="/Users/travis/.rvm/rubies/ruby-2.3.4/bin/ruby"
+  - do_on osx rvm use 2.3
   - do_on osx brew install python
   - do_on osx brew install ccache
   - do_on osx export PATH="/usr/local/opt/ccache/libexec:$PATH"
