@@ -3,7 +3,6 @@ os:
   - linux
   - osx
 dist: trusty
-osx_image: xcode9.1
 addons:
   apt:
     sources:
@@ -12,7 +11,6 @@ addons:
     packages:
       - bitcoind
 language:
-  - c
   - cpp
 cache:
   - ccache
@@ -20,33 +18,20 @@ cache:
     - $HOME/.cache
 before_install:
   - do_on(){ if [ "$TRAVIS_OS_NAME" = "$1" ]; then shift; $@ ; fi; }
-  - do_on osx rvm install "ruby-2.3.4"
-  - do_on osx export HOMEBREW_RUBY_PATH="/Users/travis/.rvm/rubies/ruby-2.3.4/bin/ruby"
-  - do_on osx rvm use 2.3
-  - do_on osx brew install python
-  - do_on osx brew install ccache
-  - do_on osx export PATH="/usr/local/opt/ccache/libexec:$PATH"
   - do_on osx pip install --upgrade pip
   - do_on osx pip install virtualenv
-  - do_on osx mkdir -p $HOME/.cache
-  - do_on osx sudo tar -xvzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1 || do_on osx curl -L https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-osx64.tar.gz -o $HOME/.cache/bitcoincore.tar.gz
-  - do_on osx test -x /usr/local/bin/bitcoind || do_on osx sudo tar -xvzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1
-  - do_on osx diskutil erasevolume HFS+ ramdisk "$(hdiutil attach -nomount ram://4194304)"
 install:
   - ./install.sh --develop --no-gpg-validation
 before_script:
   - source jmvenv/bin/activate
 script:
-  - bitcoind --help | head -1
-  - do_on osx ./test/run_tests.sh
+  - do_on linux bitcoind --help | head -1
+  - do_on linux ./test/run_tests.sh
 after_success:
-  - coveralls
+  - do_on linux coveralls
 after_failure:
   - echo "at least cache some stuff"
-  - do_on osx find "/Users/${USER}/Library/Application\\ Support/Bitcoin/"
-  - do_on osx ./miniircd/miniircd --debug
-  - do_on osx sudo lsof -i -n -P
 branches:
  only:
   - master
-  - travis-test-linux-and-osx
+  - travis-test-linux-and-osx-no-brew
