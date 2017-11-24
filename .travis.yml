@@ -19,9 +19,8 @@ cache:
     - $HOME/.cache
 before_install:
   - do_on(){ if [ "$TRAVIS_OS_NAME" = "$1" ]; then shift; $@ ; fi; }
-  - do_on osx brew update
-  - do_on osx brew outdated python || do_on osx brew install python
-  - do_on osx brew outdated ccache || do_on osx brew install ccache
+  - do_on osx brew install python
+  - do_on osx brew install ccache
   - do_on osx export PATH="/usr/local/opt/ccache/libexec:$PATH"
   - do_on osx pip install --upgrade pip
   - do_on osx pip install virtualenv
