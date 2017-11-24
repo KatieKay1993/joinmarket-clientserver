@@ -18,24 +18,23 @@ cache:
   - directories:
     - $HOME/.cache
 before_install:
-  - on_osx(){ test "$TRAVIS_OS_NAME" = osx && $@ ; }
-  - on_linux(){ test "$TRAVIS_OS_NAME" = linux && $@ ; }
-  - on_osx "( brew outdated python || brew install python )"
-  - on_osx "( brew outdated ccache || brew install ccache )"
-  - on_osx export PATH="/usr/local/opt/ccache/libexec:$PATH"
-  - on_osx pip install --upgrade pip
-  - on_osx pip install virtualenv
-  - on_osx mkdir -p $HOME/.cache
-  - on_osx sudo tar -xzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1
-  - on_osx "( test $? -eq 0 || ( curl -L https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-osx64.tar.gz -o $HOME/.cache/bitcoincore.tar.gz && sudo tar -xzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1 ) )"
-  - on_osx diskutil erasevolume HFS+ ramdisk "$(hdiutil attach -nomount ram://4194304)"
+  - do_on(){ if [ "$TRAVIS_OS_NAME" = "$1" ]; then shift; $@ ; fi; }
+  - do_on osx "( brew outdated python || brew install python )"
+  - do_on osx "( brew outdated ccache || brew install ccache )"
+  - do_on osx export PATH="/usr/local/opt/ccache/libexec:$PATH"
+  - do_on osx pip install --upgrade pip
+  - do_on osx pip install virtualenv
+  - do_on osx mkdir -p $HOME/.cache
+  - do_on osx sudo tar -xzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1
+  - do_on osx "( test $? -eq 0 || ( curl -L https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-osx64.tar.gz -o $HOME/.cache/bitcoincore.tar.gz && sudo tar -xzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1 ) )"
+  - do_on osx diskutil erasevolume HFS+ ramdisk "$(hdiutil attach -nomount ram://4194304)"
 install:
   - ./install.sh --develop --no-gpg-validation
 before_script:
   - source jmvenv/bin/activate
 script:
   - bitcoind --help | head -1
-  - on_osx ./test/run_tests.sh
+  - do_on osx ./test/run_tests.sh
 after_success:
   - coveralls
 after_failure:
