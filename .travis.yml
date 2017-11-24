@@ -10,20 +10,25 @@ addons:
       key_url: 'http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xD46F45428842CE5E'
     packages:
       - bitcoind
+language:
+  - c
+  - c++
 cache:
-      directories:
-          - $HOME/.cache
+  - ccache
+  directories:
+    - $HOME/.cache
 before_install:
   - on_osx(){( test "$TRAVIS_OS_NAME" = osx && $@ ) || true; }
   - on_linux(){( test "$TRAVIS_OS_NAME" = linux && $@ ) || true; }
   - on_osx "( brew outdated python || brew install python )"
-  - on_osx pip install virtualenv
+  - on_osx "( brew outdated ccache || brew install ccache )"
+  - on_osx export PATH="/usr/local/opt/ccache/libexec:$PATH"
   - on_osx pip install --upgrade pip
+  - on_osx pip install virtualenv
   - on_osx mkdir -p $HOME/.cache
   - on_osx "( test -r $HOME/.cache/bitcoincore.tar.gz || curl -L https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-osx64.tar.gz -o $HOME/.cache/bitcoincore.tar.gz )"
   - on_osx sudo tar -xzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1
-  - on_osx diskutil erasevolume HFS+ jm_test_home "$(hdiutil attach -nomount ram://4194304)"
-  - on_osx ln -s /Volumes/jm_test_home/ /tmp/jm_test_home
+  - on_osx diskutil erasevolume HFS+ ramdisk "$(hdiutil attach -nomount ram://4194304)"
 install:
   - ./install.sh --develop --no-gpg-validation
 before_script:
