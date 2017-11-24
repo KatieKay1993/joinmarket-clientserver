@@ -22,6 +22,8 @@ before_install:
   - on_osx mkdir -p $HOME/.cache
   - on_osx "( test -r $HOME/.cache/bitcoincore.tar.gz || curl -L https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-osx64.tar.gz -o $HOME/.cache/bitcoincore.tar.gz )"
   - on_osx sudo tar -xzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1
+  - on_osx diskutil erasevolume HFS+ jm_test_home "$(hdiutil attach -nomount ram://4194304)"
+  - on_osx ln -s /Volumes/jm_test_home/ ${TRAVIS_BUILD_DIR}/test/jm_test_home
 install:
   - ./install.sh --develop --no-gpg-validation
 before_script:
