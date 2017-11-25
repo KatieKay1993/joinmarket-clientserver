@@ -15,20 +15,20 @@ cache:
   - $HOME/.cache
 before_install:
   - do_on(){ if [ "$TRAVIS_OS_NAME" = "$1" ]; then shift; $@ ; fi; }
+  - do_on linux false
   - do_on osx export bitcoin_node_url='https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-osx64.tar.gz'
   - do_on osx mkdir -p $HOME/.cache
   - do_on osx sudo tar -xvzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1 || do_on osx curl -L ${bitcoin_node_url} -o $HOME/.cache/bitcoincore.tar.gz
   - do_on osx test -x /usr/local/bin/bitcoind || do_on osx sudo tar -xvzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1
   - do_on osx diskutil erasevolume HFS+ ramdisk "$(hdiutil attach -nomount ram://4194304)"
-  - do_on osx eval 'echo rpcallowip=127.0.0.0/8 >> ./test/bitcoin.conf'
-  - do_on osx cat ./test/bitcoin.conf
-  - do_on osx sleep 5
 install:
   - ./install.sh --develop --no-gpg-validation
 before_script:
   - source jmvenv/bin/activate
 script:
-  - bitcoind --help | head -1
-  - ./test/run_tests.sh
+  - do_on osx bitcoind -regtest -conf=$PWD/test/bitcoin.conf
+  - do_on osx sleep 5
+  - do_on osx bitcoin-cli -regtest -rpcuser=bitcoinrpc -rpcpassword=123456abcdef getblockchaininfo
+  - # ./test/run_tests.sh
 after_success:
-  - coveralls
+  - # coveralls
