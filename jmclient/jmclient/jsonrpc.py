@@ -23,6 +23,7 @@ from __future__ import absolute_import, print_function
 import base64
 import httplib
 import json
+from time import sleep
 
 
 class JsonRpcError(Exception):
@@ -73,6 +74,7 @@ class JsonRpc(object):
         headers["Authorization"] = "Basic %s" % base64.b64encode(self.authstr)
 
         body = json.dumps(obj)
+        refused = 0
 
         while True:
             try:
@@ -99,6 +101,11 @@ class JsonRpc(object):
                 return "CONNFAILURE"
             except Exception as exc:
                 if str(exc) == "Connection reset by peer":
+                    self.conn.connect()
+                    continue
+                if str(exc) == "Connection refused" && (refused < 3):
+                    sleep(10)
+                    refused += 1
                     self.conn.connect()
                     continue
                 else:
