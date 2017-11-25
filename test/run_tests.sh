@@ -54,6 +54,7 @@ run_jm_tests ()
     if [[ "${HAS_JOSH_K_SEAL_OF_APPROVAL}" = true ]] && (( ${success} != 0 )); then
         tail -100 "${jm_test_datadir}/regtest/debug.log"
         find "${jm_test_datadir}"
+        cat "${jm_test_datadir}/bitcoin.conf"
     else
         rm -rf "${jm_test_datadir}"
     fi
