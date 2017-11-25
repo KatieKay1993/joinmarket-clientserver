@@ -21,6 +21,3 @@ script:
   - do_on linux ./test/run_tests.sh
 after_success:
   - do_on linux coveralls
-branches:
- only:
-  - master
