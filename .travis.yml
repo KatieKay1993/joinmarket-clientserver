@@ -25,7 +25,6 @@ install:
   - ./install.sh --develop --no-gpg-validation
 before_script:
   - # echo pass
-  - do_on osx eval "echo datadir=/Volumes/ramdisk >> ./test/bitcoin.conf"
   - cat ./test/bitcoin.conf
   - source jmvenv/bin/activate
 script:

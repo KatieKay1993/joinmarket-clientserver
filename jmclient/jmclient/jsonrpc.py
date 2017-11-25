@@ -103,7 +103,7 @@ class JsonRpc(object):
                 if str(exc) == "Connection reset by peer":
                     self.conn.connect()
                     continue
-                if str(exc) == "Connection refused" && (refused < 3):
+                if ((str(exc) == "Connection refused") and (refused < 3)):
                     sleep(10)
                     refused += 1
                     self.conn.connect()
