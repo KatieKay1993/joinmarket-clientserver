@@ -26,7 +26,7 @@ install:
 before_script:
   - source jmvenv/bin/activate
 script:
-  - bitcoind --help | head 1
+  - bitcoind --help | head -1
   - ./test/run_tests.sh
 after_success:
   - coveralls
