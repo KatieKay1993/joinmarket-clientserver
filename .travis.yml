@@ -33,7 +33,7 @@ script:
   - bitcoind -conf=$PWD/test/bitcoin.conf
   - sleep 10
   - bitcoin-cli -conf=$PWD/test/bitcoin.conf getblockchaininfo
-  - curl --data-binary '{"jsonrpc":"1.0","id":"curltext","method":"getblockchaininfo","params":[]}' -H 'content-type:text/plain;' http://123456abcdef:bitcoinrpc@127.0.0.1:18332/
+  - curl --data-binary '{"jsonrpc":"1.0","id":"curltext","method":"getblockchaininfo","params":[]}' -H 'content-type:text/plain;' http://bitcoinrpc:123456abcdef@127.0.0.1:18332/
   - # ./test/run_tests.sh
 after_success:
   - echo pass
