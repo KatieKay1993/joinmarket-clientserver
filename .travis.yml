@@ -15,7 +15,6 @@ cache:
   - $HOME/.cache
 before_install:
   - do_on(){ if [ "$TRAVIS_OS_NAME" = "$1" ]; then shift; $@ ; fi; }
-  - do_on linux false
   - do_on osx export bitcoin_node_url='https://bitcoin.org/bin/bitcoin-core-0.15.1/bitcoin-0.15.1-osx64.tar.gz'
   - do_on osx mkdir -p $HOME/.cache
   - do_on osx sudo tar -xvzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1 || do_on osx curl -L ${bitcoin_node_url} -o $HOME/.cache/bitcoincore.tar.gz
@@ -32,8 +31,9 @@ before_script:
 script:
   - bitcoind --help | head -1
   - bitcoind -conf=$PWD/test/bitcoin.conf
+  - sleep 10
   - bitcoin-cli -conf=$PWD/test/bitcoin.conf getblockchaininfo
-  - curl --data-binary '{"jsonrpc":"1.0","id":"curltext","method":"getblockchaininfo","params":[]}' -H 'content-type:text/plain;' http://123456abcdef:bitcoinrpc@127.2.0.1:18332/
+  - curl --data-binary '{"jsonrpc":"1.0","id":"curltext","method":"getblockchaininfo","params":[]}' -H 'content-type:text/plain;' http://123456abcdef:bitcoinrpc@127.0.0.1:18332/
   - # ./test/run_tests.sh
 after_success:
   - echo pass
