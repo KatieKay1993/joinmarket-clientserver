@@ -20,6 +20,9 @@ before_install:
   - do_on osx sudo tar -xvzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1 || do_on osx curl -L ${bitcoin_node_url} -o $HOME/.cache/bitcoincore.tar.gz
   - do_on osx test -x /usr/local/bin/bitcoind || do_on osx sudo tar -xvzf $HOME/.cache/bitcoincore.tar.gz -C /usr/local/ --strip-components=1
   - do_on osx diskutil erasevolume HFS+ ramdisk "$(hdiutil attach -nomount ram://4194304)"
+  - do_on osx sudo networksetup -setv6off Ethernet
+  - do_on osx sudo networksetup -setv6off wi-fi
+  - do_on osx networksetup -setv6off "Thunderbolt Ethernet"
 install:
   - # echo pass
   - ./install.sh --develop --no-gpg-validation

@@ -89,7 +89,7 @@ def setup(request):
     global miniircd_procs
     for i in range(n_irc):
         miniircd_proc = local_command(
-            ["./miniircd/miniircd", "--ports=" + str(6667+i),
+            ["./miniircd/miniircd", "--listen=127.0.0.1", "--ports=" + str(6667+i),
              "--motd=" + cwd + "/miniircd/testmotd"],
             bg=True)
         miniircd_procs.append(miniircd_proc)
