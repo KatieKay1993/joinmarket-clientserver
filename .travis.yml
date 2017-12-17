@@ -12,6 +12,8 @@ addons:
       - bitcoind
 before_install:
   - do_on(){ if [ "$TRAVIS_OS_NAME" = "$1" ]; then shift; $@ ; fi; }
+  - do_on osx brew list
+  - do_on osx brew cask list
 install:
   - ./install.sh --develop --no-gpg-validation
 before_script:
@@ -21,6 +23,3 @@ script:
   - do_on linux ./test/run_tests.sh
 after_success:
   - do_on linux coveralls
-branches:
- only:
-  - master
