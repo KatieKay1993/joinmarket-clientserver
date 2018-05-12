@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 gpg_verify_key ()
 {
@@ -420,7 +420,7 @@ main ()
         return 1
     fi
     if [[ ${install_os} != 'unknown' ]] && ! qt_deps_link; then
-        read -t 60 -p "
+        read -p "
         Install Joinmarket-Qt? (may require additional dependencies)
         (y/n)  "
         if [[ ${REPLY} =~ y|Y ]]; then
