@@ -330,7 +330,7 @@ install_get_os ()
     if os_is_deb; then
         echo 'debian'
     else
-        echo 'unkown'
+        echo 'unknown'
     fi
 }
 
