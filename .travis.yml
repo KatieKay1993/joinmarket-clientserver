@@ -14,9 +14,6 @@ matrix:
     - os: linux
     - os: linux
       services: docker
-      env: DOCKER_IMG_JM=trusty
-    - os: linux
-      services: docker
       env: DOCKER_IMG_JM=xenial
     - os: linux
       services: docker
