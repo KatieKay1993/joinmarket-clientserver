@@ -259,7 +259,7 @@ class txIRC_Client(irc.IRCClient, object):
     # ---------------------------------------------
 
     def signedOn(self):
-        wlog('signedOn:')
+        wlog('signedOn: ' + self.nickname + ' -> ' + self.hostname)
         self.join(self.factory.channel)
 
     def joined(self, channel):
