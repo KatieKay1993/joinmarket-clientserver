@@ -27,7 +27,7 @@ run_jm_tests ()
 		echo "file 'joinmarket.cfg' moved to 'joinmarket.cfg.bak'"
     fi
     if [[ "${HAS_JOSH_K_SEAL_OF_APPROVAL}" == true ]] && [[ "${TRAVIS_OS_NAME}" == osx ]]; then
-        disk_dev="$(/usr/bin/hdiutil attach -nomount ram://4194304)"
+        disk_dev="$(/usr/bin/hdiutil attach -nomount ram://4194304 | tr -d '[:space:]' )"
         /usr/sbin/diskutil erasevolume HFS+ 'ramdisk' "${disk_dev}"
     fi
     for dir in '/dev/shm' '/Volumes/ramdisk' '/tmp' "${jm_source}/test"; do
