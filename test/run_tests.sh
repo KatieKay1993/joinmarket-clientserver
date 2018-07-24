@@ -26,6 +26,9 @@ run_jm_tests ()
         mv ./joinmarket.cfg ./joinmarket.cfg.bak
 		echo "file 'joinmarket.cfg' moved to 'joinmarket.cfg.bak'"
     fi
+    if [[ "${HAS_JOSH_K_SEAL_OF_APPROVAL}" == true ]] && [[ "${TRAVIS_OS_NAME}" == osx ]]; then
+        sudo diskutil erasevolume HFS+ 'ramdisk' "$(sudo hdiutil attach -nomount ram://4194304)"
+    fi
     for dir in '/dev/shm' '/Volumes/ramdisk' '/tmp' "${jm_source}/test"; do
         if [[ -d "${dir}" && -r "${dir}" && -w "${dir}" && -x "${dir}" ]]; then
             jm_test_datadir="${dir}/jm_test_home/.bitcoin"
