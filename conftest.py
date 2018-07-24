@@ -90,7 +90,8 @@ def setup(request):
     for i in range(n_irc):
         miniircd_proc = local_command(
             ["./miniircd/miniircd", "--ports=" + str(6667+i),
-             "--motd=" + cwd + "/miniircd/testmotd"],
+             "--motd=" + cwd + "/miniircd/testmotd",
+             "--listen=127.0.0.1"],
             bg=True)
         miniircd_procs.append(miniircd_proc)
     #start up regtest blockchain
