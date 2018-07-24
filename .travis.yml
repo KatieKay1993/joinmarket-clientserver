@@ -3,7 +3,12 @@ dist: trusty
 matrix:
   include:
     - os: osx
-      env: PIP_DOWNLOAD_CACHE=$HOME/Library/Caches/pip
+      env:
+        - PIP_DOWNLOAD_CACHE=$HOME/Library/Caches/pip
+        - core_version=0.16.1
+        - core_dist=bitcoin-${core_version}-osx64.tar.gz
+        - core_url=https://bitcoincore.org/bin/bitcoin-core-${core_version}/${core_dist}
+        - PATH=${HOME}/bitcoin-${core_version}/bin:${PATH}"
     - os: linux
       env: PIP_DOWNLOAD_CACHE=$HOME/.cache/pip
       addons:
@@ -29,26 +34,29 @@ matrix:
     - os: linux
       services: docker
       env: DOCKER_IMG_JM=fedora27
-before_install:
-  - do_on(){ if [ "$TRAVIS_OS_NAME" = "$1" ]; then shift; $@ ; fi; }
-  - on_host(){ if [ -z "$DOCKER_IMG_JM" ]; then $@ ; fi; }
-  - on_docker(){ if [ -n "$DOCKER_IMG_JM" ]; then $@ ; fi; }
 cache:
   directories:
    - $HOME/downloads
    - $HOME/.cache/pip
    - $HOME/Library/Caches/pip
-install:
+before_install:
+  - do_on(){ if [ "$TRAVIS_OS_NAME" = "$1" ]; then shift; $@ ; fi; }
+  - on_host(){ if [ -z "$DOCKER_IMG_JM" ]; then $@ ; fi; }
+  - on_docker(){ if [ -n "$DOCKER_IMG_JM" ]; then $@ ; fi; }
   - mkdir -p "$HOME/downloads"
   - mkdir -p "$TRAVIS_BUILD_DIR/deps/cache/"
+  - do_on osx test -r "${HOME}/downloads/${core_dist}" || do_on osx curl --retry 5 -L "${core_url}" -o "${HOME}/downloads/${core_dist}"
+  - do_on osx tar -xzf "${HOME}/downloads/${core_dist}" -C "${HOME}"
+  - do_on osx ls -la "${HOME}/bitcoin-${core_version}/bin"
+install:
   - find "$HOME/downloads" -type f -exec cp -v {} "$TRAVIS_BUILD_DIR/deps/cache/" \;
   - on_host ./install.sh --develop --no-gpg-validation
   - on_host find "$TRAVIS_BUILD_DIR/deps/cache/" -type f -exec cp -v {} "$HOME/downloads/" \;
 before_script:
   - on_host source jmvenv/bin/activate
 script:
-  - on_host do_on linux bitcoind --help | head -1
-  - on_host do_on linux ./test/run_tests.sh
+  - on_host bitcoind --help | head -1
+  - on_host ./test/run_tests.sh
   - on_docker ./test/Dockerfiles/build_docker.sh
 after_success:
   - on_docker echo "Success !"
