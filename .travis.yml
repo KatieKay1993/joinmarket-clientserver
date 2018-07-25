@@ -5,7 +5,9 @@ matrix:
     - os: osx
       env: PIP_DOWNLOAD_CACHE=$HOME/Library/Caches/pip
     - os: linux
-      env: PIP_DOWNLOAD_CACHE=$HOME/.cache/pip
+      env:
+        - PIP_DOWNLOAD_CACHE=$HOME/.cache/pip
+        - PATH=/usr/lib/ccache:$PATH
       addons:
         apt:
            sources:
@@ -38,6 +40,7 @@ cache:
    - $HOME/downloads
    - $HOME/.cache/pip
    - $HOME/Library/Caches/pip
+   - $HOME/.ccache
 install:
   - mkdir -p "$HOME/downloads"
   - mkdir -p "$TRAVIS_BUILD_DIR/deps/cache/"
