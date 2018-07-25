@@ -5,7 +5,7 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update
 RUN apt-get install --no-install-recommends -y build-essential
 RUN apt-get install --no-install-recommends -y \
-    automake pkg-config libtool
+    automake pkg-config libtool autoconf
 RUN apt-get install --no-install-recommends -y \
     python-dev python-pip python-virtualenv virtualenv python-qt4 python-sip
 
