@@ -3,14 +3,14 @@ SHELL ["/bin/bash", "-c"]
 
 # dependencies
 RUN apt-get update
-RUN apt-get install -y build-essential
-RUN apt-get install -y \
+RUN apt-get install --no-install-recommends -y build-essential
+RUN apt-get install --no-install-recommends -y \
     automake pkg-config libtool
-RUN apt-get install -y \
+RUN apt-get install --no-install-recommends -y \
     python-dev python-pip python-virtualenv python-qt4 python-sip
 
 # curl is a better tool
-RUN apt-get install -y curl
+RUN apt-get install --no-install-recommends -y curl
 
 RUN useradd --home-dir /home/chaum --create-home --shell /bin/bash --skel /etc/skel/ chaum
 ARG core_version
