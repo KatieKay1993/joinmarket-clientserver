@@ -7,7 +7,7 @@ RUN apt-get install --no-install-recommends -y build-essential
 RUN apt-get install --no-install-recommends -y \
     automake pkg-config libtool
 RUN apt-get install --no-install-recommends -y \
-    python-dev python-pip python-virtualenv python-qt4 python-sip
+    python-dev python-pip python-virtualenv virtualenv python-qt4 python-sip
 
 # curl is a better tool
 RUN apt-get install --no-install-recommends -y curl
