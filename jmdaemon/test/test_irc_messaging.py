@@ -138,7 +138,7 @@ class TrialIRC(unittest.TestCase):
     def test_waiter(self):
         print("test_main()")
         #reactor.callLater(1.0, junk_messages, self.mcc)
-        return task.deferLater(reactor, 22, self._called_by_deffered)
+        return task.deferLater(reactor, 35, self._called_by_deffered)
 
     def _called_by_deffered(self):
         pass
