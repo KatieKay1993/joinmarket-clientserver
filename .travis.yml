@@ -44,12 +44,12 @@ install:
   - mkdir -p "$TRAVIS_BUILD_DIR/deps/cache/"
   - find "$HOME/downloads" -type f -exec cp -v {} "$TRAVIS_BUILD_DIR/deps/cache/" \;
   - on_host ./install.sh --develop --no-gpg-validation
-  - on_host find "$TRAVIS_BUILD_DIR/deps/cache/" -type f -exec cp -v {} "$HOME/downloads/" \;
 before_script:
   - on_host source jmvenv/bin/activate
 script:
   - on_host do_on linux bitcoind --help | head -1
-  - on_host do_on linux ./test/run_tests.sh
+  - on_host ./test/run_tests.sh
+  - on_host find "$TRAVIS_BUILD_DIR/deps/cache/" -type f -exec cp -v {} "$HOME/downloads/" \;
   - on_docker ./test/Dockerfiles/build_docker.sh
 after_success:
   - on_docker echo "Success !"
