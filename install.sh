@@ -346,7 +346,7 @@ libsodium_get ()
 libsodium_build ()
 {
     ./autogen.sh
-    ./configure --enable-shared --prefix="${jm_root}"
+    ./configure --enable-shared --enable-minimal --prefix="${jm_root}"
     make uninstall
     make
     if ! make check; then
