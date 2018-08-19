@@ -106,7 +106,7 @@ openssl_get ()
 
 openssl_build ()
 {
-    ./config shared --prefix="${jm_root}"
+    ./config no-shared --prefix="${jm_root}"
     make
     rm -rf "${jm_root}/ssl" \
         "${jm_root}/lib/engines" \
@@ -488,11 +488,10 @@ main ()
     source "${jm_root}/bin/activate"
     mkdir -p "deps/cache"
     pushd deps
-# openssl build disabled. using OS package manager's version.
-#    if ! openssl_install; then
-#        echo "Openssl was not built. Exiting."
-#        return 1
-#    fi
+    if ! openssl_install; then
+        echo "Openssl was not built. Exiting."
+        return 1
+    fi
     if ! libffi_install; then
         echo "Libffi was not built. Exiting."
         return 1
