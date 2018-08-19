@@ -385,7 +385,7 @@ joinmarket_install ()
     for pkg in ${jm_pkgs[@]}; do
         pip uninstall -y "${pkg/jm/joinmarket}"
         pushd "${pkg}"
-        pip install ${develop_build:+-e} . || return 1
+        pip install --no-binary :all: ${develop_build:+-e} . || return 1
         popd
     done
 }
