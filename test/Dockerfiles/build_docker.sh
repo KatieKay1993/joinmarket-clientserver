@@ -15,14 +15,20 @@ build_docker ()
         return 0
     fi
 
-    core_version='0.16.1'
+    core_version='0.16.2'
     core_dist="bitcoin-${core_version}-x86_64-linux-gnu.tar.gz"
-    core_url="https://bitcoin.org/bin/bitcoin-core-${core_version}/${core_dist}"
+    core_url="https://bitcoincore.org/bin/bitcoin-core-${core_version}/${core_dist}"
     libffi_lib_tar='v3.2.1.tar.gz'
     libffi_url="https://github.com/libffi/libffi/archive/${libffi_lib_tar}"
+    secp256k1_lib_tar='d33352151699bd7598b868369dace092f7855740.tar.gz'
+    secp256k1_url="https://github.com/bitcoin-core/secp256k1/archive/${secp256k1_lib_tar}"
+    secp256k1_py_lib_tar='0.13.2.4.tar.gz'
+    secp256k1_py_url="https://github.com/ludbb/secp256k1-py/archive/${secp256k1_py_lib_tar}"
     sodium_lib_tar='libsodium-1.0.13.tar.gz'
     sodium_url="https://download.libsodium.org/libsodium/releases/${sodium_lib_tar}"
-    declare -A deps=( [${core_dist}]="${core_url}" [${libffi_lib_tar}]="${libffi_url}" [${sodium_lib_tar}]="${sodium_url}" )
+    miniircd_tar='miniircd.tar.gz'
+    miniircd_url='https://github.com/JoinMarket-Org/miniircd/archive/master.tar.gz'
+    declare -A deps=( [${core_dist}]="${core_url}" [${libffi_lib_tar}]="${libffi_url}" [${secp256k1_lib_tar}]="${secp256k1_url}" [${secp256k1_py_lib_tar}]="${secp256k1_py_url}" [${sodium_lib_tar}]="${sodium_url}" [${miniircd_tar}]="${miniircd_url}" )
     jm_root="${TRAVIS_BUILD_DIR}"
     owner_name="${TRAVIS_REPO_SLUG%\/*}"
     repo_name="${TRAVIS_REPO_SLUG#*\/}"
