@@ -135,8 +135,7 @@ openssl_build ()
     ./config shared --prefix="${jm_root}"
     make uninstall_sw
     make
-    # using -j2 here, anything >2 seems to cause the tests to fail
-    if ! make -j2 test; then
+    if ! make test; then
         return 1
     fi
 }
@@ -405,7 +404,7 @@ joinmarket_install ()
     for pkg in ${jm_pkgs[@]}; do
         pip uninstall -y "${pkg/jm/joinmarket}"
         pushd "${pkg}"
-        pip install ${develop_build:+-e} . || return 1
+        pip install ${build_source:+--no-binary :all:} ${develop_build:+-e} . || return 1
         popd
     done
 }
@@ -419,6 +418,9 @@ parse_flags ()
                 ;;
             --no-gpg-validation)
                 no_gpg_validation='1'
+                ;;
+            --source)
+                build_source='1'
                 ;;
             *)
                 echo "warning.  unknown flag : ${flag}" 1>&2
@@ -492,6 +494,7 @@ main ()
     # flags
     develop_build=''
     no_gpg_validation=''
+    build_source=''
     reinstall='false'
     parse_flags ${@}
 
@@ -509,11 +512,10 @@ main ()
     source "${jm_root}/bin/activate"
     mkdir -p "deps/cache"
     pushd deps
-# openssl build disabled. using OS package manager's version.
-#    if ! openssl_install; then
-#        echo "Openssl was not built. Exiting."
-#        return 1
-#    fi
+    if (( ${build_source} )) && ! openssl_install; then
+        echo "Openssl was not built. Exiting."
+        return 1
+    fi
     if ! libffi_install; then
         echo "Libffi was not built. Exiting."
         return 1
