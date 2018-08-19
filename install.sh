@@ -263,7 +263,7 @@ secp256k1-py_install ()
     secp256k1_py_version='0.13.2.4'
     secp256k1_py_lib_tar="${secp256k1_py_version}.tar.gz"
     secp256k1_py_lib_sha='f7920b1b887fe6745c49aebea40cefe867adddf11eb2c164624f1f2729f74657'
-    secp256k1_py_url='https://github.com/ludbb/secp256k1-py/archive/'
+    secp256k1_py_url='https://github.com/ludbb/secp256k1-py/archive'
 
     rm -rf "./secp256k1-py-${secp256k1_py_version}"
     pushd cache
