@@ -116,7 +116,7 @@ openssl_build ()
         "${jm_root}/include/openssl" \
         "${jm_root}/bin/c_rehash" \
         "${jm_root}/bin/openssl"
-    if ! make test; then
+    if ! make -j2 test; then
         return 1
     fi
 }
