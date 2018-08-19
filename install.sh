@@ -77,6 +77,28 @@ check_skip_build ()
     return 1
 }
 
+patch_ld_lib_path ()
+{
+    pushd "${jm_source}/jmvenv/bin"
+    cat <<'EOF' > activate.patch
+18a19,23
+>     if ! [ -z "${_OLD_LD_LIBRARY_PATH+_}" ] ; then
+>         LD_LIBRARY_PATH="$_OLD_LD_LIBRARY_PATH"
+>         export LD_LIBRARY_PATH
+>         unset _OLD_LD_LIBRARY_PATH
+>     fi
+48a54,57
+> 
+> _OLD_LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
+> LD_LIBRARY_PATH="$VIRTUAL_ENV/lib:$LD_LIBRARY_PATH"
+> export LD_LIBRARY_PATH
+EOF
+    patch activate activate.patch
+    ret="$?"
+    popd
+    return "${ret}"
+}
+
 venv_setup ()
 {
     if check_skip_build 'jmvenv'; then
@@ -85,6 +107,10 @@ venv_setup ()
         reinstall='true'
     fi
     virtualenv -p python2 "${jm_source}/jmvenv" || return 1
+    if ! patch_ld_lib_path; then
+        echo "LD_LIBRARY_PATH patch failed. Exiting."
+        return 1
+    fi
     source "${jm_source}/jmvenv/bin/activate" || return 1
     pip install --upgrade pip
     pip install --upgrade setuptools
@@ -107,25 +133,19 @@ openssl_get ()
 openssl_build ()
 {
     ./config shared --prefix="${jm_root}"
+    make uninstall_sw
     make
-    rm -rf "${jm_root}/ssl" \
-        "${jm_root}/lib/engines" \
-        "${jm_root}/lib/pkgconfig/openssl.pc" \
-        "${jm_root}/lib/pkgconfig/libssl.pc" \
-        "${jm_root}/lib/pkgconfig/libcrypto.pc" \
-        "${jm_root}/include/openssl" \
-        "${jm_root}/bin/c_rehash" \
-        "${jm_root}/bin/openssl"
-    if ! make test; then
+    # using -j2 here, anything >2 seems to cause the tests to fail
+    if ! make -j2 test; then
         return 1
     fi
 }
 
 openssl_install ()
 {
-    openssl_version='openssl-1.0.2l'
+    openssl_version='openssl-1.1.0i'
     openssl_lib_tar="${openssl_version}.tar.gz"
-    openssl_lib_sha='ce07195b659e75f4e1db43552860070061f156a98bb37b672b101ba6e3ddf30c'
+    openssl_lib_sha='ebbfc844a8c8cc0ea5dc10b86c9ce97f401837f3fa08c17b2cdadc118253cf99'
     openssl_lib_sig="${openssl_lib_tar}.asc"
     openssl_url='https://www.openssl.org/source'
     openssl_signer_key_id='D9C4D26D0E604491'
@@ -464,7 +484,8 @@ main ()
     jm_root="${jm_source}/jmvenv"
     jm_deps="${jm_source}/deps"
     export PKG_CONFIG_PATH="${jm_root}/lib/pkgconfig:${PKG_CONFIG_PATH}"
-    export LD_LIBRARY_PATH="${jm_root}/lib:${LD_LIBRARY_PATH}"
+    # handled by venv
+    # export LD_LIBRARY_PATH="${jm_root}/lib:${LD_LIBRARY_PATH}"
     export C_INCLUDE_PATH="${jm_root}/include:${C_INCLUDE_PATH}"
     export MAKEFLAGS='-j'
 
