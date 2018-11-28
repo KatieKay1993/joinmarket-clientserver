@@ -229,7 +229,7 @@ coincurve_build ()
     else
         return 1
     fi
-    local plat="$( python -c "import sysconfig; print('-'.join([sysconfig.get_platform(), sysconfig.get_python_version()]))")"
+    local plat="$( python -c "import sysconfig; print('-'.join([sysconfig.get_platform(), sysconfig.get_python_version()]))" )"
     LDFLAGS="-L${jm_deps}/coincurve-${coincurve_version}/build/temp.${plat}/lib" \
         COINCURVE_IGNORE_SYSTEM_LIB="1" \
         python setup.py install
