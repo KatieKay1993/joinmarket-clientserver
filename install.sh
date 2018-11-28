@@ -204,13 +204,13 @@ libffi_install ()
     popd
 }
 
-coincurve_patch_libsecp_so ()
+coincurve_patch_ignore_sys_libsecp ()
 {
     cat <<'EOF' > setup_support.py.patch
 74c74,77
 <         ffi.dlopen("secp256k1")
 ---
->         if "_COINCURVE_IGNORE_SYSTEM_LIBSECP" in os.environ:
+>         if "COINCURVE_IGNORE_SYSTEM_LIB" in os.environ:
 >             return False
 >         else:
 >             ffi.dlopen("secp256k1")
@@ -220,7 +220,7 @@ EOF
 
 coincurve_build ()
 {
-    if ! coincurve_patch_libsecp_so; then
+    if ! coincurve_patch_ignore_sys_libsecp; then
         return 1
     fi
     if [[ -d "${jm_deps}/secp256k1-${secp256k1_version}" ]]; then
@@ -229,7 +229,7 @@ coincurve_build ()
     else
         return 1
     fi
-    _COINCURVE_IGNORE_SYSTEM_LIBSECP="1" python setup.py install
+    COINCURVE_IGNORE_SYSTEM_LIB="1" python setup.py install
     return "$?"
 }
 
