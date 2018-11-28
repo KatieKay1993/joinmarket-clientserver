@@ -256,9 +256,6 @@ coincurve_install ()
 
 libsecp256k1_install ()
 {
-    # https://github.com/JoinMarket-Org/joinmarket-clientserver/issues/177
-    # https://github.com/bitcoin-core/secp256k1/commit/d33352151699bd7598b868369dace092f7855740
-
     secp256k1_version='1e6f1f5ad5e7f1e3ef79313ec02023902bf8175c'
     secp256k1_lib_tar="${secp256k1_version}.tar.gz"
     secp256k1_lib_sha='d4bc033398d4db43077ceb3aa50bb2f7700bdf3fc6eb95b8c799ff6f657a804a'
