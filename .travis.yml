@@ -22,6 +22,9 @@ matrix:
       env: DOCKER_IMG_JM=bionic
     - os: linux
       services: docker
+      env: DOCKER_IMG_JM=gentoo
+    - os: linux
+      services: docker
       env: DOCKER_IMG_JM=stretch
     - os: linux
       services: docker
