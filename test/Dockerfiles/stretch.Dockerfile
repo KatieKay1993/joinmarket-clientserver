@@ -8,6 +8,7 @@ RUN apt-get install -y \
     automake pkg-config libtool libgmp-dev
 RUN apt-get install -y \
     python-dev python-pip python-virtualenv python-qt4 python-sip
+RUN apt-get install -y libsecp256k1-dev
 
 # curl is a better tool
 RUN apt-get install -y curl
