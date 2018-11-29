@@ -215,6 +215,15 @@ coincurve_patch_ignore_sys_libsecp ()
 >         else:
 >             ffi.dlopen("secp256k1")
 EOF
+    cat <<'EOF' > setup.py.patch
+216,218c216
+<             self.library_dirs.append(
+<                 os.path.join(_build_clib.build_clib, 'lib'),
+<             )
+---
+>             self.library_dirs.insert(0, os.path.join(_build_clib.build_clib, 'lib'))
+EOF
+    patch setup.py setup.py.patch && \
     patch setup_support.py setup_support.py.patch
 }
 
@@ -229,10 +238,7 @@ coincurve_build ()
     else
         return 1
     fi
-    local plat="$( python -c "import sysconfig; print('-'.join([sysconfig.get_platform(), sysconfig.get_python_version()]))" )"
-    LDFLAGS="-L${jm_deps}/coincurve-${coincurve_version}/build/temp.${plat}/lib" \
-        COINCURVE_IGNORE_SYSTEM_LIB="1" \
-        python setup.py install
+    COINCURVE_IGNORE_SYSTEM_LIB="1" python setup.py install
     return "$?"
 }
 
