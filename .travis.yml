@@ -33,6 +33,9 @@ matrix:
       env: DOCKER_IMG_JM=stretch-py3
     - os: linux
       services: docker
+      env: DOCKER_IMG_JM=gentoo-py3
+    - os: linux
+      services: docker
       env: DOCKER_IMG_JM=centos7-py2
     - os: linux
       services: docker
