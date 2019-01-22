@@ -52,6 +52,11 @@ cache:
    - $HOME/.cache/pip
    - $HOME/Library/Caches/pip
 install:
+  - echo ------------------
+  - echo "[ $TRAVIS_EVENT_TYPE , $TRAVIS_TAG ]"
+  - echo ------------------
+  - echo "${TRAVIS_COMMIT_MESSAGE[@]}"
+  - echo ------------------
   - mkdir -p "$HOME/downloads"
   - mkdir -p "$TRAVIS_BUILD_DIR/deps/cache/"
   - find "$HOME/downloads" -type f -exec cp -v {} "$TRAVIS_BUILD_DIR/deps/cache/" \;
