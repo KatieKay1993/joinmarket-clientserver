@@ -1,0 +1,5 @@
+coincurve==12.0.0
+https://github.com/JoinMarket-Org/joinmarket-clientserver/archive/b19348d3752b90bd19dda3e3ad69e6a204ddb0c1.zip#egg=joinmarketbase&subdirectory=jmbase
+https://github.com/JoinMarket-Org/joinmarket-clientserver/archive/b19348d3752b90bd19dda3e3ad69e6a204ddb0c1.zip#egg=joinmarketbitcoin&subdirectory=jmbitcoin
+https://github.com/JoinMarket-Org/joinmarket-clientserver/archive/b19348d3752b90bd19dda3e3ad69e6a204ddb0c1.zip#egg=joinmarketclient&subdirectory=jmclient
+https://github.com/JoinMarket-Org/joinmarket-clientserver/archive/b19348d3752b90bd19dda3e3ad69e6a204ddb0c1.zip#egg=joinmarketdaemon&subdirectory=jmdaemon
