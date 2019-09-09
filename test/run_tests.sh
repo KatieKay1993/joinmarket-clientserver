@@ -33,8 +33,8 @@ run_jm_tests ()
         mkdir -p miniircd
         tar -xzf miniircd.tar.gz -C ./miniircd --strip-components=1
     fi
-    if ! pip install -r ./requirements-dev.txt; then
-        echo "Packages in 'requirements-dev.txt' could not be installed. Exiting."
+    if ! pip install -r requirements/testing.txt; then
+        echo "Packages in 'requirements/testing.txt' could not be installed. Exiting."
         return 1
     fi
     if [[ ! -L ./joinmarket.cfg && -e ./joinmarket.cfg ]]; then

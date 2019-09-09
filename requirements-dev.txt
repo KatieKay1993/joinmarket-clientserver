@@ -1,9 +1,0 @@
-# matplotlib
-# numpy
-pexpect
-coverage==4.0.3
-pytest
-pytest-cov>=2.4.0,<2.6
-python-coveralls
-mock
-flake8
