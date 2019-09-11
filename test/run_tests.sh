@@ -19,6 +19,11 @@ run_jm_tests ()
         \`source ./jmvenv/bin/activate\`"
         return 1
     fi
+    if [[ `python -c 'from __future__ import print_function; import platform; print(platform.python_version_tuple()[0])'` == '2' ]]; then
+        jm_requirements="requirements/py2-testing.txt"
+    else
+        jm_requirements="requirements/testing.txt"
+    fi
     jm_source="${VIRTUAL_ENV}/.."
     export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:${VIRTUAL_ENV}/lib/pkgconfig"
     export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${VIRTUAL_ENV}/lib"
@@ -33,8 +38,8 @@ run_jm_tests ()
         mkdir -p miniircd
         tar -xzf miniircd.tar.gz -C ./miniircd --strip-components=1
     fi
-    if ! pip install -r requirements/testing.txt; then
-        echo "Packages in 'requirements/testing.txt' could not be installed. Exiting."
+    if ! pip install -r ${jm_requirements}; then
+        echo "Packages in '${jm_requirements}' could not be installed. Exiting."
         return 1
     fi
     if [[ ! -L ./joinmarket.cfg && -e ./joinmarket.cfg ]]; then
