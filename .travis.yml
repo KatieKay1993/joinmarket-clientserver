@@ -8,7 +8,6 @@ matrix:
         homebrew:
            packages:
              - bitcoin
-             - python
              - libsodium
            update: true
     - os: linux
@@ -62,6 +61,9 @@ cache:
    - $HOME/downloads
    - $HOME/.cache/pip
    - $HOME/Library/Caches/pip
+   - $HOME/Library/Caches/Homebrew
+before_cache:
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then brew cleanup; fi
 install:
   - mkdir -p "$HOME/downloads"
   - mkdir -p "$TRAVIS_BUILD_DIR/deps/cache/"
