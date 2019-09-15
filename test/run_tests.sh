@@ -19,7 +19,7 @@ run_jm_tests ()
         \`source ./jmvenv/bin/activate\`"
         return 1
     fi
-    if [[ `python -c 'from __future__ import print_function; import platform; print(platform.python_version_tuple()[0])'` == '2' ]]; then
+    if [[ "$(python -c 'from __future__ import print_function; import platform; print(platform.python_version_tuple()[0])')" == '2' ]]; then
         jm_requirements="requirements/py2-testing.txt"
     else
         jm_requirements="requirements/testing.txt"
@@ -38,7 +38,7 @@ run_jm_tests ()
         mkdir -p miniircd
         tar -xzf miniircd.tar.gz -C ./miniircd --strip-components=1
     fi
-    if ! pip install -r ${jm_requirements}; then
+    if ! pip install -r "${jm_requirements}"; then
         echo "Packages in '${jm_requirements}' could not be installed. Exiting."
         return 1
     fi
