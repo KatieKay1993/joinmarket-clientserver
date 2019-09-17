@@ -22,7 +22,7 @@ flake8==3.7.8
 future==0.17.1            # via chromalog
 hyperlink==19.0.0         # via twisted
 idna==2.8                 # via hyperlink, requests, twisted
-importlib-metadata==0.22  # via pluggy, pytest
+importlib-metadata==0.23  # via pluggy, pytest
 incremental==17.5.0       # via twisted, txtorcon
 libnacl==1.6.1
 mccabe==0.6.1             # via flake8
