@@ -68,7 +68,8 @@ install:
   - mkdir -p "$HOME/downloads"
   - mkdir -p "$TRAVIS_BUILD_DIR/deps/cache/"
   - find "$HOME/downloads" -type f -exec cp -v {} "$TRAVIS_BUILD_DIR/deps/cache/" \;
-  - on_host virtualenv --python=python3 jmvenv
+  - on_host do_on linux ./install.sh --develop --python=python3 --with-qt
+  - on_host do_on osx virtualenv --python=python3 jmvenv
   - on_host find "$TRAVIS_BUILD_DIR/deps/cache/" -type f -exec cp -v {} "$HOME/downloads/" \;
 before_script:
   - on_host source jmvenv/bin/activate
